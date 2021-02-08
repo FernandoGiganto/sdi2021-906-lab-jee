@@ -30,6 +30,7 @@
 			<li><a href="carrito.jsp">Carrito</a></li>
 			<li><a href="login.jsp">Login</a></li>
 			<li><a href="administrar.jsp">Administrar productos</a></li>
+			<li><a href="vista-blog.jsp">Blog</a></li>
 		</ul>
 		<div class="nav navbar-right">
 			<div class="center-block">
