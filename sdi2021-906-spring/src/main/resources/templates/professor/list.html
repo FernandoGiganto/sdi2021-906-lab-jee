@@ -31,6 +31,7 @@
 						<td th:text="${professor.surname}">Apellido</td>
 						<td th:text="${professor.category}">Categoria</td>
 						<td><a th:href="${'/professor/details/' + professor.id}">detalles</a></td>
+						<td><a th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
 						<td><a th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
 					</tr>
 				</tbody>
