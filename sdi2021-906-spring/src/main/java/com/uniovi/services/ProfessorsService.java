@@ -16,8 +16,8 @@ public class ProfessorsService {
 	private ProfessorRepository professorRepository;
 
 
-	public void addProfesor(Professor p) {
-		professorRepository.save(p);
+	public void addProfesor(Professor professor) {
+		professorRepository.save(professor);
 	}
 
 	public Professor getProfesor(Long id) {

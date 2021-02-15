@@ -1,44 +1,50 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.uniovi.entities.Mark;
 import com.uniovi.entities.Professor;
 import com.uniovi.services.ProfessorsService;
 
-@RestController
+@Controller
 public class ProfessorsController {
 
 	@Autowired // Inyectar el servicio
 	private ProfessorsService professorService;
 
 	@RequestMapping("/professor/list")
-	public String getList() {
-		return professorService.getProfessors().toString();
+	public String getList(Model model) {
+		model.addAttribute("professorList", professorService.getProfessors());
+		return "professor/list";
 	}
 
 	@RequestMapping(value = "/professor/add", method = RequestMethod.POST)
-	public String setProfessor(@ModelAttribute Professor p) {
-		professorService.addProfesor(p);
-		return "Ok";
+	public String setProfessor(@ModelAttribute Professor professor) {
+		professorService.addProfesor(professor);
+		return "redirect:/professor/list";
 	}
 
 	@RequestMapping("/professor/details/{id}")
-	public String getDetail( @PathVariable Long id) {
-		return professorService.getProfesor(id).toString();
+	public String getDetail(Model model, @PathVariable Long id) {
+		model.addAttribute("professor", professorService.getProfesor(id));
+		return "professor/details";
 	}
 
 	@RequestMapping("/professor/delete/{id}")
 	public String deleteMark(@PathVariable Long id) {
 		professorService.deleteProfesor(id);
-		return "Ok";
+		return "redirect:/professor/list";
 	}
 
+	@RequestMapping(value = "/professor/add")
+	public String getProfessor() {
+		return "professor/add";
+	}
 	
 	
 
