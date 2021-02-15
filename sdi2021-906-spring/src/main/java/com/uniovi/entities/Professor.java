@@ -1,8 +1,8 @@
 package com.uniovi.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
 public class Professor {
 
 	@Id 

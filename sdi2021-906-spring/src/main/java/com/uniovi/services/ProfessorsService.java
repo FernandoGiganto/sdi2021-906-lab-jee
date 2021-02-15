@@ -1,41 +1,37 @@
 package com.uniovi.services;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Professor;
+import com.uniovi.repositories.ProfessorRepository;
 
 @Service
 public class ProfessorsService {
 
-	private List<Professor> professorList = new LinkedList<Professor>();
+	@Autowired 
+	private ProfessorRepository professorRepository;
 
-	@PostConstruct
-	public void init() {
-		professorList.add(new Professor(1L, "fer", "giganto", "sdi"));
-		professorList.add(new Professor(2L, "ignacio", "garcia", "asw"));
-	}
 
 	public void addProfesor(Professor p) {
-		if (p.getId() == null)
-			p.setId(professorList.get(professorList.size() - 1).getId() + 1);
-		professorList.add(p);
+		professorRepository.save(p);
 	}
 
 	public Professor getProfesor(Long id) {
-		return professorList.stream().filter(professor -> professor.getId().equals(id)).findFirst().get();
+		return professorRepository.findById(id).get();
 	}
 
 	public void deleteProfesor(Long id) {
-		professorList.removeIf(professor -> professor.getId().equals(id));
+		professorRepository.deleteById(id);
 	}
 
 	public List<Professor> getProfessors() {
-		return professorList;
+		List<Professor>  p = new ArrayList<Professor>();
+		professorRepository.findAll().forEach(p::add);
+		return p;
 
 	}
 
