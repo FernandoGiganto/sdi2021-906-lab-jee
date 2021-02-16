@@ -12,7 +12,7 @@ import com.uniovi.entities.Mark;
 import com.uniovi.services.MarksService;
 
 @Controller
-public class MarksControllers {
+public class MarkControllers {
 
 	@Autowired // Inyectar el servicio
 	private MarksService marksService;
@@ -57,6 +57,12 @@ public class MarksControllers {
 		mark.setId(id);
 		marksService.addMark(mark);
 		return "redirect:/mark/details/" + id;
+	}
+
+	@RequestMapping("/mark/list/update")
+	public String updateList(Model model) {
+		model.addAttribute("markList", marksService.getMarks());
+		return "mark/list :: tableMarks";
 	}
 
 }
