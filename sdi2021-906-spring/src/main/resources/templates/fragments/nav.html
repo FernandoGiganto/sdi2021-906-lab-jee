@@ -28,29 +28,34 @@
 								style="border: 0; float: left; margin-right: 15px" /> <span
 								th:text="#{language.es}">Español</span>
 						</a></li>
+						<li><a id="btnItaliano" value="IT"> <img
+								th:src="@{/img/if_spain_flag.png}"
+								style="border: 0; float: left; margin-right: 15px" /> <span
+								th:text="#{language.it}">Italiano</span>
+						</a></li>
 					</ul></li>
 				<li><a href ="/">Home</a></li>
 				<li id= "marks-menu" class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{nav.gestionNotas.message}">
 						Gestión de Notas <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href ="/mark/add">Agregar Nota</a></li>
-						<li><a href ="/mark/list">Ver Notas</a></li>
+						<li><a href ="/mark/add" th:text="#{nav.gestionNotas.Agregar.message}">Agregar Nota</a></li>
+						<li><a href ="/mark/list" th:text="#{nav.gestionNotas.Ver.message}">Ver Notas</a></li>
 					</ul>
 				</li>
 				<li id= "users-menu" class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{nav.gestionUsuarios.message}">
 						Gestión de Usuarios <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href ="/user/add">Agregar Usuario</a></li>
-						<li><a href ="/user/list">Ver Usuarios</a></li>
+						<li><a href ="/user/add" th:text="#{nav.gestionUsuarios.Agregar.message}">Agregar Usuario</a></li>
+						<li><a href ="/user/list" th:text="#{nav.gestionUsuarios.Ver.message}">Ver Usuarios</a></li>
 					</ul>
 				</li>
 						
-				<li><a href="/professor/add">Añadir Profesor</a></li>
-				<li><a href="/professor/list">Listado profesores</a></li>
+				<li><a href="/professor/add" th:text="#{nav.gestionProfesores.Agregar.message}">Añadir Profesor</a></li>
+				<li><a href="/professor/list" th:text="#{nav.gestionProfesores.Ver.message}">Listado profesores</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/signup" th:text="#{signup.message}"> <span
