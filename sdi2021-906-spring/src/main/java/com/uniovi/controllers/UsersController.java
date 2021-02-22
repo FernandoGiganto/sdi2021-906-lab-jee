@@ -25,8 +25,8 @@ public class UsersController {
 
 	@Autowired
 	private SecurityService securityService;
-	
-	@Autowired 
+
+	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
 	@RequestMapping("/user/list")
@@ -61,15 +61,20 @@ public class UsersController {
 
 	@RequestMapping(value = "/user/edit/{id}")
 	public String getEdit(Model model, @PathVariable Long id) {
-		User user = usersService.getUser(id);
-		model.addAttribute("user", user);
+		model.addAttribute("user", usersService.getUser(id));
+		model.addAttribute("usersList", usersService.getUsers());
 		return "user/edit";
 	}
 
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
 	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		user.setId(id);
-		usersService.addUser(user);
+		User original = usersService.getUser(id);
+
+		original.setDni(user.getDni());
+		original.setName(user.getName());
+		original.setLastName(user.getLastName());
+
+		usersService.addUser(original);
 		return "redirect:/user/details/" + id;
 	}
 
@@ -81,11 +86,11 @@ public class UsersController {
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
-		
+
 		signUpFormValidator.validate(user, result);
-		if(result.hasErrors())
+		if (result.hasErrors())
 			return "signup";
-		
+
 		usersService.addUser(user);
 		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
 		return "redirect:home";
@@ -104,4 +109,11 @@ public class UsersController {
 		model.addAttribute("markList", activeUser.getMarks());
 		return "home";
 	}
+
+	@RequestMapping("/user/list/update")
+	public String updateList(Model model) {
+		model.addAttribute("userList", usersService.getUsers());
+		return "user/list :: tableUsers";
+	}
+
 }
