@@ -6,9 +6,10 @@
 	<div class="container" style="text-align: center">
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3 th:text="#{home.privado.message}"></h3>
-		<p th:text="#{home.usuario.message}">
-			Usuario Autenticado como : <b th:inline="text">[[${#httpServletRequest.remoteUser}]]
-			</b>
+		<p >
+			Usuario Autenticado como : <span
+				sec:authentication="principal.username" th:inline="text">
+				 </span>
 		</p>
 
 		<p th:text="#{home.notas.message}"></p>
@@ -30,8 +31,10 @@
 						<td th:text="${mark.description}">Ejercicio 1</td>
 						<td th:text="${mark.score}">10</td>
 						<td><a th:href="${'/mark/details/' + mark.id}">detalles</a></td>
-						<td><a th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
-						<td><a th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
+						<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+							th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
+						<td><a sec:authorize="hasRole('ROLE_PROFESSOR')"
+							th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
