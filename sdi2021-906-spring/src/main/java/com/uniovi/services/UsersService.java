@@ -1,9 +1,13 @@
 package com.uniovi.services;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +23,10 @@ public class UsersService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
-		usersRepository.findAll().forEach(users::add);
-		return users;
+	public Page<User> getUsers(Pageable pageable) {
+
+		return usersRepository.findAll(pageable);
+		
 	}
 
 	public User getUser(Long id) {
@@ -35,6 +39,7 @@ public class UsersService {
 	}
 
 	public User getUserByDni(String dni) {
+		 
 		return usersRepository.findByDni(dni);
 	}
 
@@ -42,10 +47,10 @@ public class UsersService {
 		usersRepository.deleteById(id);
 	}
 	
-	public List<User> searchByName(String searchText){
-		List<User> users = new ArrayList<User>();
+	public Page<User> searchByName(Pageable pageable,String searchText){
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		searchText = "%"+searchText+"%";
-		users = usersRepository.searchByName(searchText);
+		users = usersRepository.searchByName(pageable,searchText);
 		return users;
 	}
 }

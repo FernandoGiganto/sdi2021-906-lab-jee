@@ -87,15 +87,19 @@ public class MarksController {
 	}
 
 	@RequestMapping(value = "/mark/add")
-	public String getMark(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
+	public String getMark(Model model,Pageable pageable) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		users = usersService.getUsers(pageable);
+		model.addAttribute("usersList", users.getContent());
 		return "mark/add";
 	}
 
 	@RequestMapping(value = "/mark/edit/{id}")
-	public String getEdit(Model model, @PathVariable Long id) {
+	public String getEdit(Model model, @PathVariable Long id,Pageable pageable) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		users = usersService.getUsers(pageable);
 		model.addAttribute("mark", marksService.getMark(id));
-		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("usersList", users.getContent());
 		return "mark/edit";
 	}
 

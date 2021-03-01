@@ -1,6 +1,11 @@
 package com.uniovi.controllers;
 
+import java.util.LinkedList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -35,13 +40,16 @@ public class UsersController {
 	private RolesService rolesService;
 
 	@RequestMapping("/user/list")
-	public String getListado(Model model, @RequestParam(value="",required=false) String searchText) {
+	public String getListado(Pageable pageable,Model model, @RequestParam(value="",required=false) String searchText) {
 		
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		if(searchText != null && !searchText.isEmpty()) {
-			model.addAttribute("userList",usersService.searchByName(searchText));
+			users = usersService.searchByName(pageable,searchText);
 		}else {
-			model.addAttribute("usersList", usersService.getUsers());
+			users = usersService.getUsers(pageable);
 		}
+		model.addAttribute("userList",users.getContent());
+		model.addAttribute("page",users);
 		return "user/list";
 	}
 
@@ -70,9 +78,12 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/user/edit/{id}")
-	public String getEdit(Model model, @PathVariable Long id) {
+	public String getEdit(Pageable pageable,Model model, @PathVariable Long id) {
+		
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		users =  usersService.getUsers(pageable);
 		model.addAttribute("user", usersService.getUser(id));
-		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("usersList", users.getContent());
 		return "user/edit";
 	}
 
@@ -113,17 +124,21 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Pageable pageable,Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 		String dni = auth.getName();
+		
 		User activeUser = usersService.getUserByDni(dni);
 		model.addAttribute("markList", activeUser.getMarks());
 		return "home";
 	}
 
 	@RequestMapping("/user/list/update")
-	public String updateList(Model model) {
-		model.addAttribute("userList", usersService.getUsers());
+	public String updateList(Pageable pageable,Model model) {
+		Page<User> users = new PageImpl<User>(new LinkedList<User>());
+		users = usersService.getUsers(pageable);
+		model.addAttribute("userList",users.getContent() );
 		return "user/list :: tableUsers";
 	}
 
