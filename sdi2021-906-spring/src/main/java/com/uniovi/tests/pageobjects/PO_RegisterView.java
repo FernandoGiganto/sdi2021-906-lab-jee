@@ -31,4 +31,24 @@ public class PO_RegisterView extends PO_NavView {
 		By boton = By.className("btn");
 		driver.findElement(boton).click(); 
 	}
+	
+	static public void fillFormTeacher(WebDriver driver, String namep, String lastnamep, String categoryp) {
+
+		WebElement name = driver.findElement(By.name("name"));
+		name.click();
+		name.clear();
+		name.sendKeys(namep);
+		WebElement lastname = driver.findElement(By.name("surname"));
+		lastname.click();
+		lastname.clear();
+		lastname.sendKeys(lastnamep);
+		WebElement category = driver.findElement(By.name("category"));
+		category.click();
+		category.clear();
+		category.sendKeys(categoryp);
+		
+		// Pulsar el boton de Alta. 
+		By boton = By.className("btn");
+		driver.findElement(boton).click(); 
+	}
 }
