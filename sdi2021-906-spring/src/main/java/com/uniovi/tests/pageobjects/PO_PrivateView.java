@@ -1,5 +1,7 @@
 package com.uniovi.tests.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,5 +26,18 @@ public class PO_PrivateView extends PO_NavView {
 		score.sendKeys(scorep);
 		By boton = By.className("btn");
 		driver.findElement(boton).click();
+	}
+	
+	static public void logout(WebDriver driver) {
+		clickOption(driver, "logout", "text", "Identifícate");
+	}
+	
+	static public void navigate(WebDriver driver,String element,int click) {
+		
+		List<WebElement> elementos = checkElement(driver, "free", element);
+		elementos.get(click).click();
+
+		
+		
 	}
 }
